@@ -4,7 +4,7 @@ services:
   db:
     build: 
       dockerfile: Dockerfile-mariadb
-    container_name: mariadb_s
+    container_name: mariadb_l
     volumes:
       - ./init:/docker-entrypoint-initdb.d
       - dbdata:/var/lib/mysql
@@ -22,10 +22,10 @@ services:
   php-apache:
     build: 
       dockerfile: Dockerfile-php
-    container_name: webapp_s
+    container_name: laravel
     volumes:
       - ./webapp:/var/www/html
-      - ./symfony:/home/symfony
+      - ./laravel:/home/laravel
     ports:
       - "8080:80"
       - "7443:443"
@@ -39,7 +39,7 @@ services:
   phpmyadmin:
     build:
       dockerfile: Dockerfile-phpmyadmin
-    container_name: pma_s
+    container_name: pma_l
     links:
       - db
     environment:
@@ -55,4 +55,4 @@ volumes:
   dbdata:
 networks:
   default:
-    name: webnet_s
+    name: webnet_l

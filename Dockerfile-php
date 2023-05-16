@@ -24,4 +24,4 @@ RUN apt-get update -y \
     && /src/install-PHP+Tools.sh \
 	&& /src/install-Apache2.sh \
     && /src/switchhttps.sh \
-    && /src/install-symfony.sh
+    && composer global require laravel/installer
