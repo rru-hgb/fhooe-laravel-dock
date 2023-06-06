@@ -1,5 +1,6 @@
 .idea
 webapp/*
+laravel/*
 !.gitattributes
 !.gitignore
 !README.md

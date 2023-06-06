@@ -24,4 +24,10 @@ RUN apt-get update -y \
     && /src/install-PHP+Tools.sh \
 	&& /src/install-Apache2.sh \
     && /src/switchhttps.sh \
-    && /src/install-laravel.sh
+    && curl -o setupnode18.sh -fsSL https://deb.nodesource.com/setup_18.x \
+    && /bin/sh /src/setupnode18.sh \
+    && apt-get install -y nodejs \
+    && npm install nodemon --global \
+    && npm install express-generator --global \
+    && npm install typescript -g \
+    && npm install ts-node -g
