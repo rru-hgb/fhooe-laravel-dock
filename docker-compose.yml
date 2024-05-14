@@ -30,6 +30,8 @@ services:
       - "8080:80"
       - "7443:443"
       - "8000:8000"
+      - "3333:3000"
+      - "5555:5173"
     environment:
       DB_HOST: db:3306
       DB_USER: onlineshop
