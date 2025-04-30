@@ -24,8 +24,8 @@ RUN apt-get update -y \
     && /src/install-PHP+Tools.sh \
 	&& /src/install-Apache2.sh \
     && /src/switchhttps.sh \
-    && curl -o setupnode20.sh -fsSL https://deb.nodesource.com/setup_20.x \
-    && /bin/sh /src/setupnode20.sh \
+    && curl -o setupnodelts.sh -fsSL https://deb.nodesource.com/setup_lts.x \
+    && /bin/sh /src/setupnodelts.sh \
     && apt-get install -y nodejs \
     && npm install nodemon --global \
     && npm install express-generator --global \
