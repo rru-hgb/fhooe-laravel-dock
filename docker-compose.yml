@@ -6,21 +6,25 @@ services:
     volumes:
       - ./init:/docker-entrypoint-initdb.d
       - dbdata:/var/lib/mysql
+     # Values for environment variables are stored in .env file
     environment:
-      MYSQL_RANDOM_ROOT_PASSWORD: 1
-      MYSQL_DATABASE: onlineshop
-      MYSQL_USER: onlineshop
-      MYSQL_PASSWORD: geheim
-      MYSQL_ROOT_HOST: "%"
-      LANG: C.UTF-8
+      MYSQL_RANDOM_ROOT_PASSWORD: ${MYSQL_RANDOM_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_ROOT_HOST: ${MYSQL_ROOT_HOST}
+      LANG: ${LANG}
     ports:
       - "6033:3306"
     command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
     restart: always
+    hostname: mariadb
   php-apache:
     build: 
       dockerfile: Dockerfile-php
     container_name: laravel
+    depends_on:
+      - db
     volumes:
       - ./webapp:/var/www/html
       - ./laravel:/home/laravel
@@ -32,22 +36,24 @@ services:
       - "5555:5173"
     environment:
       DB_HOST: db:3306
-      DB_USER: onlineshop
-      DB_NAME: onlineshop
-      DB_PASSWORD: geheim
+      DB_NAME: ${MYSQL_DATABASE}
+      DB_USER: ${MYSQL_USER}
+      DB_PASSWORD: ${MYSQL_PASSWORD}
     restart: always
+    hostname: laravel
   phpmyadmin:
     build:
       dockerfile: Dockerfile-phpmyadmin
     container_name: pma_l
-    links:
+    depends_on:
       - db
     environment:
       PMA_HOST: db
       PMA_PORT: 3306
-      PMA_USER: onlineshop
-      PMA_PASSWORD: geheim
+      DB_USER: ${MYSQL_USER}
+      DB_PASSWORD: ${MYSQL_PASSWORD}
     restart: always
+    hostname: pma
     ports:
       - 8082:80
       - 8443:443
